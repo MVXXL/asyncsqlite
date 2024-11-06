@@ -6,11 +6,7 @@ AsyncSQLite - это библиотека Python, предоставляющая
 
 ## Установка
 
-Установить AsyncSQLite можно с помощью pip:
-
-```bash
-pip install asyncsqlite
-```
+Установить AsyncSQLite можно с помощью setup.py.
 
 ## Особенности
 

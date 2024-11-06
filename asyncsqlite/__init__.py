@@ -148,3 +148,87 @@ class AsyncSQLite:
     async def clear_table(self, table_name: str) -> None:
         query = f"DELETE FROM {table_name}"
         await self.execute(query)
+
+
+"""
+Как пользоваться библиотекой AsyncSQLite от а до я:
+
+1. Импорт:
+    Чтобы использовать библиотеку, импортируйте класс `AsyncSQLite`:
+    from asyncsqlite import AsyncSQLite
+
+2. Создание объекта базы данных:
+    Чтобы создать объект базы данных, передайте путь к базе данных в конструктор:
+    db = AsyncSQLite("my_database.db")
+
+3. Работа с асинхронным контекстом:
+    Библиотека использует асинхронный контекстный менеджер, который автоматически управляет подключениями.
+    Пример:
+    async with AsyncSQLite("my_database.db") as db:
+        # В этом блоке выполняются все операции с базой данных.
+
+4. Создание таблицы:
+    Для создания таблицы используйте метод `create_table`, передав имя таблицы и столбцы в формате словаря:
+    await db.create_table("users", {
+        "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+        "username": "TEXT NOT NULL",
+        "email": "TEXT NOT NULL",
+        "created_at": "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    })
+
+5. Вставка данных:
+    Для вставки данных в таблицу используйте метод `insert`, передав имя таблицы и значения:
+    await db.insert("users", {
+        "username": "johndoe",
+        "email": "johndoe@example.com"
+    })
+
+6. Обновление данных:
+    Для обновления данных используйте метод `update`, передав имя таблицы, новые значения, условие и параметры:
+    await db.update("users", {"email": "john.doe@example.com"}, "id = ?", (1,))
+
+7. Удаление данных:
+    Для удаления данных используйте метод `delete`, передав имя таблицы, условие и параметры:
+    await db.delete("users", "id = ?", (1,))
+
+8. Получение всех данных:
+    Чтобы получить все данные из таблицы, используйте метод `fetchall`, передав SQL-запрос:
+    users = await db.fetchall("SELECT * FROM users")
+    print(users)
+
+9. Получение одного значения:
+    Чтобы получить одну строку данных, используйте метод `fetchone`, передав SQL-запрос:
+    user = await db.fetchone("SELECT * FROM users WHERE id = ?", (1,))
+    print(user)
+
+10. Транзакции:
+    Для выполнения нескольких запросов в рамках одной транзакции используйте метод `transaction`:
+    queries = [
+        ("INSERT INTO users (username, email) VALUES (?, ?)", ("alice", "alice@example.com")),
+        ("INSERT INTO users (username, email) VALUES (?, ?)", ("bob", "bob@example.com"))
+    ]
+    await db.transaction(queries)
+
+11. Bulk-вставка:
+    Для вставки нескольких записей за один запрос используйте метод `bulk_insert`:
+    await db.bulk_insert("users", ["username", "email"], [
+        ("charlie", "charlie@example.com"),
+        ("dave", "dave@example.com")
+    ])
+
+12. Проверка существования таблицы:
+    Для проверки, существует ли таблица, используйте метод `table_exists`:
+    exists = await db.table_exists("users")
+    print(exists)
+
+13. Удаление таблицы:
+    Для удаления таблицы используйте метод `drop_table`:
+    await db.drop_table("users")
+
+14. Очистка таблицы:
+    Для очистки таблицы от данных используйте метод `clear_table`:
+    await db.clear_table("users")
+
+15. Закрытие соединений:
+    Когда работа с базой завершена, соединения автоматически закроются при выходе из контекстного менеджера.
+"""

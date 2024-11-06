@@ -1,17 +1,17 @@
 import re
 from setuptools import setup, find_packages
 
-with open('README.md') as f:
+with open('README.md', encoding='utf-8') as f:
     readme = f.read()
 
 version = ''
-with open('asyncsqlite/__init__.py') as f:
+with open('asyncsqlite/__init__.py', encoding='utf-8') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 
 setup(
     name='asyncsqlite',
     version=version,
-    author='YourName',
+    author='MVXXL',
     url='https://github.com/MVXXL/asyncsqlite',
     packages=find_packages(include=['asyncsqlite', 'asyncsqlite.*']),
     package_data={'asyncsqlite': ['py.typed']},
